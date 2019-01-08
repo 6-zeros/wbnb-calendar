@@ -1,4 +1,5 @@
-const domain = process.env.DOMAIN || '172.17.0.2';
+// const domain = process.env.DOMAIN || '172.17.0.2';
+const domain = 'localhost';
 const mongoose = require('mongoose');
 const Reservation = require('../models/reservations.js');
 

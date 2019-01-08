@@ -1,4 +1,5 @@
-const domain = process.env.DOMAIN || '172.17.0.2';
+// const domain = process.env.DOMAIN || '172.17.0.2';
+const domain = 'localhost';
 const express = require('express');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
