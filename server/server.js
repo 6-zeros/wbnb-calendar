@@ -1,16 +1,19 @@
 // const domain = process.env.DOMAIN || '172.17.0.2';
-const domain = 'localhost';
+// const domain = 'localhost';
+// const mongoose = require('mongoose');
+// const Reservations = require('../db/models/reservations.js');
+
+// mongoose.connect(`mongodb://${domain}/errbnb`, { useNewUrlParser: true })
+//   .then(() => {
+//     console.log('Connected to Database on: ', domain);
+//   });
+
 const express = require('express');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
-const mongoose = require('mongoose');
 const path = require('path');
-const Reservations = require('../db/models/reservations.js');
-
-mongoose.connect(`mongodb://${domain}/errbnb`, { useNewUrlParser: true })
-  .then(() => {
-    console.log('Connected to Database on: ', domain);
-  });
+const { addReservation, readReservation, 
+        updateReservation, deleteReservation } = require('../db/index.js');
 
 const app = express();
 const PORT = 8080;
@@ -20,35 +23,41 @@ app.use(morgan('tiny'));
 app.use(bodyparser.json());
 app.use(express.static('client/dist'));
 
+// ------------------------- CRUD OPERATIONS ------------------------- //
+
+// CREATE
+app.post('/api/rooms/:id', (req, res) => {
+  const { reservationInfo } = req.body;
+  const { id } = req.params;
+  addReservation(id, reservationInfo, () => {
+    res.send(`success updating reservation for room id ${id}`);
+  });
+}); 
+
+// READ
 app.get('/api/rooms/:id', (req, res) => {
   const { id } = req.params;
-  Reservations.findOne({ _id: id })
-    .then((result) => {
-      res.send(result);
-    });
+  readReservation(id, (result) => {
+    res.send(result);
+  });
 });
 
-app.patch('/api/rooms/:id', (req, res) => {
+// UPDATE
+app.put('/api/rooms/:id', (req, res) => {
+  const { newReservationInfo } = req.body;
   const { id } = req.params;
-  const payload = req.body;
-  Reservations.findByIdAndUpdate({ _id: Number(id) })
-    .then((results) => {
-      const transformedDates = [];
-      results.bookedDates.forEach((date) => {
-        transformedDates.push(date.startDate.valueOf());
-        transformedDates.push(date.endDate.valueOf());
-      });
-      const includesStartDate = transformedDates.includes(new Date(payload.startDate).valueOf());
-      const includesEndDate = transformedDates.includes(new Date(payload.endDate).valueOf());
-      if (includesStartDate && includesEndDate) {
-        res.end('Duplicate Entry');
-      } else {
-        results.bookedDates.push(payload);
-        results.save(() => {
-          res.end('Saved to DB');
-        });
-      }
-    });
+  updateReservation(id, newReservationInfo, () => {
+    res.send(`success updating reservation for room id ${id}`);
+  });
+});
+
+// DELETE
+app.delete('/api/rooms/:id', (req, res) => {
+  const { id } = req.params;
+  const { reservationInfo } = req.body;
+  deleteReservation(id, reservationInfo, () => {
+    res.send(`success deleting reservation associated with room id ${id}`);
+  });
 });
 
 app.get('/*', (req, res) => {
@@ -58,3 +67,26 @@ app.get('/*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
+
+// app.patch('/api/rooms/:id', (req, res) => {
+//   const { id } = req.params;
+//   const payload = req.body;
+//   Reservations.findByIdAndUpdate({ _id: Number(id) })
+//     .then((results) => {
+//       const transformedDates = [];
+//       results.bookedDates.forEach((date) => {
+//         transformedDates.push(date.startDate.valueOf());
+//         transformedDates.push(date.endDate.valueOf());
+//       });
+//       const includesStartDate = transformedDates.includes(new Date(payload.startDate).valueOf());
+//       const includesEndDate = transformedDates.includes(new Date(payload.endDate).valueOf());
+//       if (includesStartDate && includesEndDate) {
+//         res.end('Duplicate Entry');
+//       } else {
+//         results.bookedDates.push(payload);
+//         results.save(() => {
+//           res.end('Saved to DB');
+//         });
+//       }
+//     });
+// });
