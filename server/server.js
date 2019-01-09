@@ -9,7 +9,6 @@ const Reservations = require('../db/models/reservations.js');
 
 mongoose.connect(`mongodb://${domain}/errbnb`, { useNewUrlParser: true })
   .then(() => {
-    /* eslint-disable-next-line */
     console.log('Connected to Database on: ', domain);
   });
 
@@ -57,6 +56,5 @@ app.get('/*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  /* eslint-disable-next-line */
   console.log(`Server listening on port: ${PORT}`);
 });
