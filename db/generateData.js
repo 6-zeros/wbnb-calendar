@@ -1,7 +1,7 @@
 // const domain = process.env.DOMAIN || '172.17.0.2';
-const domain = 'localhost';
-const mongoose = require('mongoose');
-const { Room, Reservation } = require('./models.js');
+// const domain = 'localhost';
+// const mongoose = require('mongoose');
+// const { Room, Reservation } = require('./models.js');
 
 const generateRandomNumber = (min, max, type) => {
   if (type !== 'int' && type !== 'double') {
@@ -59,34 +59,38 @@ const generateReservationData = (numEntries) => {
   return reservationData;
 };
 
-const seedDB = (roomData, reservationData) => {
-  // seed rooms
-  Room.deleteMany({}, (err1) => {
-    if (err1) {
-      console.error(err1);
-    } else {
-      console.log('------ rooms collection cleared');
-      Room.insertMany(roomData).then(() => {
-        // seed reservations
-        Reservation.deleteMany({}, (err2) => {
-          if (err2) {
-            console.error(err2);
-          } else {
-            console.log('------ reservations collection cleared');
-            Reservation.insertMany(reservationData)
-              .then(() => process.exit());
-          }
-        });
-      });
-    }
-  });
-};
+const entryCount = 100000;
 
-mongoose.connect(`mongodb://${domain}/wherebnb`, { useNewUrlParser: true });
-const entryCount = 1000;
+// WRITE THESE TO FILES
 const roomData = generateRoomData(entryCount);
 const reservationData = generateReservationData(entryCount);
-seedDB(roomData, reservationData);
 
-module.exports.roomData = roomData;
-module.exports.reservationData = reservationData;
+// mongoose.connect(`mongodb://${domain}/wherebnb`, { useNewUrlParser: true });
+
+// const seedDB = (roomData, reservationData) => {
+//   // seed rooms
+//   Room.deleteMany({}, (err1) => {
+//     if (err1) {
+//       console.error(err1);
+//     } else {
+//       console.log('------ rooms collection cleared');
+//       Room.insertMany(roomData).then(() => {
+//         // seed reservations
+//         Reservation.deleteMany({}, (err2) => {
+//           if (err2) {
+//             console.error(err2);
+//           } else {
+//             console.log('------ reservations collection cleared');
+//             Reservation.insertMany(reservationData)
+//               .then(() => process.exit());
+//           }
+//         });
+//       });
+//     }
+//   });
+// };
+
+// seedDB(roomData, reservationData);
+
+// module.exports.roomData = roomData;
+// module.exports.reservationData = reservationData;
