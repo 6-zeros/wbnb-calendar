@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const entryCount = 10000000;
+const entryCount = 30000000;
 
 const progressLog = (index, fileName) => {
   if (index === 1) {
@@ -62,23 +62,26 @@ const generateRandomEndDate = (index) => {
 };
 
 const generateAndWriteRoomData = () => {
-  const stream = fs.createWriteStream('roomData.txt');
+  const stream = fs.createWriteStream('roomData.csv');
+  const headers = 'id,name,price,stars,service_fee,cleaning_fee\n';
+  stream.write(headers);
+
   let i = 1;
 
   const write = () => {
     let proceed = true;
     while (i <= entryCount && proceed) {
-      progressLog(i, 'roomData.txt');
-      const entry = {
-        id: i,
-        name: `Room ${i}`,
-        price: generateRandomNumber(50, 150, 'int'),
-        stars: generateRandomNumber(1, 5, 'double'),
-        service_fee: generateRandomNumber(10, 25, 'int'),
-        cleaning_fee: generateRandomNumber(50, 75, 'int'),
-      };
-      const entryAndNewLine = `${JSON.stringify(entry)}\n`;
-      proceed = stream.write(entryAndNewLine);
+      progressLog(i, 'roomData.csv');
+
+      let entry = '';
+      entry += `${i},`;
+      entry += `Room ${i},`;
+      entry += `${generateRandomNumber(50, 150, 'int')},`;
+      entry += `${generateRandomNumber(1, 5, 'double')},`;
+      entry += `${generateRandomNumber(10, 25, 'int')},`;
+      entry += `${generateRandomNumber(50, 75, 'int')}\n`;
+
+      proceed = stream.write(entry);
       i += 1;
     }
 
@@ -93,24 +96,27 @@ const generateAndWriteRoomData = () => {
 };
 
 const generateAndWriteReservationData = () => {
-  const stream = fs.createWriteStream('reservationData.txt');
+  const stream = fs.createWriteStream('reservationData.csv');
+  const headers = 'id,room_id,start_date,end_date,adults,children,infants\n';
+  stream.write(headers);
+
   let i = 1;
 
   const write = () => {
     let proceed = true;
     while (i <= entryCount && proceed) {
-      progressLog(i, 'reservationData.txt');
-      const entry = {
-        id: i,
-        room_id: generateRandomNumber(1, 10000000, 'int'),
-        start_date: generateRandomStartDate(i),
-        end_date: generateRandomEndDate(i),
-        adults: generateRandomNumber(1, 3, 'int'),
-        children: generateRandomNumber(1, 3, 'int'),
-        infants: generateRandomNumber(1, 2, 'int'),
-      };
-      const entryAndNewLine = `${JSON.stringify(entry)}\n`;
-      proceed = stream.write(entryAndNewLine);
+      progressLog(i, 'reservationData.csv');
+
+      let entry = '';
+      entry += `${i},`;
+      entry += `${generateRandomNumber(1, 10000000, 'int')},`;
+      entry += `${generateRandomStartDate(i)},`;
+      entry += `${generateRandomEndDate(i)},`;
+      entry += `${generateRandomNumber(1, 3, 'int')},`;
+      entry += `${generateRandomNumber(1, 3, 'int')},`;
+      entry += `${generateRandomNumber(1, 2, 'int')}\n`;
+
+      proceed = stream.write(entry);
       i += 1;
     }
 
@@ -125,4 +131,4 @@ const generateAndWriteReservationData = () => {
 };
 
 // generateAndWriteRoomData();
-// generateAndWriteReservationData();
+generateAndWriteReservationData();
