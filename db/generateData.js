@@ -3,6 +3,10 @@
 // const mongoose = require('mongoose');
 // const { Room, Reservation } = require('./models.js');
 
+const fs = require('fs');
+
+const entryCount = 100000;
+
 const generateRandomNumber = (min, max, type) => {
   if (type !== 'int' && type !== 'double') {
     return new Error('Unexpected argument type. Acceptable inputs are \'int\' or \'double\'');
@@ -27,19 +31,40 @@ const generateRandomEndDate = (index) => {
 };
 
 const generateRoomData = (numEntries) => {
-  const roomData = [];
+
+  if (fs.existsSync('roomData.csv')) {
+    fs.unlink('roomData.csv', (err) => {
+      if (err) throw err;
+    });
+  }
+
   for (let i = 0; i < numEntries; i += 1) {
     const entry = {
-      _id: i,
+      id: i,
       name: `Room ${i}`,
       price: generateRandomNumber(50, 150, 'int'),
       stars: generateRandomNumber(1, 5, 'double'),
       service_fee: generateRandomNumber(10, 25, 'int'),
       cleaning_fee: generateRandomNumber(50, 75, 'int'),
     };
-    roomData.push(entry);
+
+    const entryAndNewLine = JSON.stringify(entry) + '\n';
+    fs.appendFileSync('roomData.csv', entryAndNewLine);
+
+    // -------------------- PROGRESS LOGGING -------------------- //
+    if (i === Math.floor(numEntries / 4)) {
+      console.log('-- 1/4 complete');
+    }
+    if (i === Math.floor(numEntries / 2)) {
+      console.log('---- 1/2 complete');
+    }
+    if (i === Math.floor(3 * numEntries / 4)) {
+      console.log('------ 3/4 complete');
+    }
+    if (i === numEntries - 1) {
+      console.log('-------- successfully written to roomData.csv');
+    }
   }
-  return roomData;
 };
 
 const generateReservationData = (numEntries) => {
@@ -59,9 +84,6 @@ const generateReservationData = (numEntries) => {
   return reservationData;
 };
 
-const entryCount = 100000;
-
-// WRITE THESE TO FILES
 const roomData = generateRoomData(entryCount);
 const reservationData = generateReservationData(entryCount);
 

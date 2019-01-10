@@ -12,8 +12,10 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const path = require('path');
-const { addReservation, readReservation, 
-        updateReservation, deleteReservation } = require('../db/index.js');
+const {
+  addReservation, readReservation,
+  updateReservation, deleteReservation,
+} = require('../db/index.js');
 
 const app = express();
 const PORT = 8080;
@@ -32,7 +34,7 @@ app.post('/api/rooms/:id', (req, res) => {
   addReservation(id, reservationInfo, () => {
     res.send(`success updating reservation for room id ${id}`);
   });
-}); 
+});
 
 // READ
 app.get('/api/rooms/:id', (req, res) => {
