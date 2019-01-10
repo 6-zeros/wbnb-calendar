@@ -1,11 +1,42 @@
-// const domain = process.env.DOMAIN || '172.17.0.2';
-// const domain = 'localhost';
-// const mongoose = require('mongoose');
-// const { Room, Reservation } = require('./models.js');
-
 const fs = require('fs');
 
-const entryCount = 100000;
+const entryCount = 10000000;
+
+const progressLog = (index, fileName) => {
+  if (index === 1) {
+    console.log(`WRITING TO ${fileName}`);
+  }
+  if (index === Math.floor(1 * entryCount / 10)) {
+    console.log('-- 10% complete');
+  }
+  if (index === Math.floor(2 * entryCount / 10)) {
+    console.log('---- 20% complete');
+  }
+  if (index === Math.floor(3 * entryCount / 10)) {
+    console.log('------ 30% complete');
+  }
+  if (index === Math.floor(4 * entryCount / 10)) {
+    console.log('-------- 40% complete');
+  }
+  if (index === Math.floor(5 * entryCount / 10)) {
+    console.log('---------- 50% complete');
+  }
+  if (index === Math.floor(6 * entryCount / 10)) {
+    console.log('------------ 60% complete');
+  }
+  if (index === Math.floor(7 * entryCount / 10)) {
+    console.log('-------------- 70% complete');
+  }
+  if (index === Math.floor(8 * entryCount / 10)) {
+    console.log('---------------- 80% complete');
+  }
+  if (index === Math.floor(9 * entryCount / 10)) {
+    console.log('------------------ 90% complete');
+  }
+  if (index === entryCount) {
+    console.log(`-------------------- SUCCESSFULLY WRITTEN TO ${fileName}`);
+  }
+};
 
 const generateRandomNumber = (min, max, type) => {
   if (type !== 'int' && type !== 'double') {
@@ -30,41 +61,34 @@ const generateRandomEndDate = (index) => {
   return new Date(year, month, day);
 };
 
-const generateRoomData = (numEntries) => {
+const generateAndWriteRoomData = () => {
+  const stream = fs.createWriteStream('roomData.txt');
+  let i = 1;
 
-  if (fs.existsSync('roomData.csv')) {
-    fs.unlink('roomData.csv', (err) => {
-      if (err) throw err;
-    });
-  }
+  const write = () => {
+    let proceed = true;
+    while (i <= entryCount && proceed) {
+      progressLog(i, 'roomData.txt');
+      const entry = {
+        id: i,
+        name: `Room ${i}`,
+        price: generateRandomNumber(50, 150, 'int'),
+        stars: generateRandomNumber(1, 5, 'double'),
+        service_fee: generateRandomNumber(10, 25, 'int'),
+        cleaning_fee: generateRandomNumber(50, 75, 'int'),
+      };
+      const entryAndNewLine = `${JSON.stringify(entry)}\n`;
+      proceed = stream.write(entryAndNewLine);
+      i += 1;
+    }
+    if (!proceed) {
+      stream.once('drain', () => {
+        write();
+      });
+    }
+  };
 
-  for (let i = 0; i < numEntries; i += 1) {
-    const entry = {
-      id: i,
-      name: `Room ${i}`,
-      price: generateRandomNumber(50, 150, 'int'),
-      stars: generateRandomNumber(1, 5, 'double'),
-      service_fee: generateRandomNumber(10, 25, 'int'),
-      cleaning_fee: generateRandomNumber(50, 75, 'int'),
-    };
-
-    const entryAndNewLine = JSON.stringify(entry) + '\n';
-    fs.appendFileSync('roomData.csv', entryAndNewLine);
-
-    // -------------------- PROGRESS LOGGING -------------------- //
-    if (i === Math.floor(numEntries / 4)) {
-      console.log('-- 1/4 complete');
-    }
-    if (i === Math.floor(numEntries / 2)) {
-      console.log('---- 1/2 complete');
-    }
-    if (i === Math.floor(3 * numEntries / 4)) {
-      console.log('------ 3/4 complete');
-    }
-    if (i === numEntries - 1) {
-      console.log('-------- successfully written to roomData.csv');
-    }
-  }
+  write();
 };
 
 const generateReservationData = (numEntries) => {
@@ -84,35 +108,5 @@ const generateReservationData = (numEntries) => {
   return reservationData;
 };
 
-const roomData = generateRoomData(entryCount);
-const reservationData = generateReservationData(entryCount);
-
-// mongoose.connect(`mongodb://${domain}/wherebnb`, { useNewUrlParser: true });
-
-// const seedDB = (roomData, reservationData) => {
-//   // seed rooms
-//   Room.deleteMany({}, (err1) => {
-//     if (err1) {
-//       console.error(err1);
-//     } else {
-//       console.log('------ rooms collection cleared');
-//       Room.insertMany(roomData).then(() => {
-//         // seed reservations
-//         Reservation.deleteMany({}, (err2) => {
-//           if (err2) {
-//             console.error(err2);
-//           } else {
-//             console.log('------ reservations collection cleared');
-//             Reservation.insertMany(reservationData)
-//               .then(() => process.exit());
-//           }
-//         });
-//       });
-//     }
-//   });
-// };
-
-// seedDB(roomData, reservationData);
-
-// module.exports.roomData = roomData;
-// module.exports.reservationData = reservationData;
+generateAndWriteRoomData();
+// generateReservationData(entryCount);

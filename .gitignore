@@ -24,3 +24,7 @@ coverage
 build/
 bundle.js
 
+# Files storing generate data
+db/roomData.txt
+db/reservationData.txt
+
