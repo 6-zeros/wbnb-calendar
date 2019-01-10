@@ -23,4 +23,4 @@
 - Route: app.delete('/api/rooms/:id')
 - Reservation info will come through the body of the request
 - Room id will be contained in the url
-- Calls the deleteReservation function which will query the database on roomId and delete the necessary recrods
+- Calls the deleteReservation function which will query the database on roomId and delete the necessary records
