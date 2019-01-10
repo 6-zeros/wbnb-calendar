@@ -49,14 +49,14 @@ const generateRandomNumber = (min, max, type) => {
 
 const generateRandomStartDate = (index) => {
   const year = 2019;
-  const month = (index % 12) + 1;
+  const month = (index % 12);
   const day = generateRandomNumber(10, 15, 'int');
   return new Date(year, month, day);
 };
 
 const generateRandomEndDate = (index) => {
   const year = 2019;
-  const month = (index % 12) + 1;
+  const month = (index % 12);
   const day = generateRandomNumber(16, 21, 'int');
   return new Date(year, month, day);
 };
@@ -102,7 +102,7 @@ const generateAndWriteReservationData = () => {
       progressLog(i, 'reservationData.txt');
       const entry = {
         id: i,
-        room_id: generateRandomNumber(1, entryCount, 'int'),
+        room_id: generateRandomNumber(1, 10000000, 'int'),
         start_date: generateRandomStartDate(i),
         end_date: generateRandomEndDate(i),
         adults: generateRandomNumber(1, 3, 'int'),
