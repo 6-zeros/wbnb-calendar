@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
-  _id: Number,
+  id: Number,
   name: String,
   price: Number,
   stars: Number,
@@ -10,7 +10,7 @@ const roomSchema = new mongoose.Schema({
 });
 
 const reservationSchema = new mongoose.Schema({
-  _id: Number,
+  id: Number,
   room_id: Number,
   start_date: Date,
   end_date: Date,

@@ -81,6 +81,7 @@ const generateAndWriteRoomData = () => {
       proceed = stream.write(entryAndNewLine);
       i += 1;
     }
+
     if (!proceed) {
       stream.once('drain', () => {
         write();
@@ -91,22 +92,37 @@ const generateAndWriteRoomData = () => {
   write();
 };
 
-const generateReservationData = (numEntries) => {
-  const reservationData = [];
-  for (let i = 0; i < numEntries; i += 1) {
-    const entry = {
-      _id: i,
-      room_id: generateRandomNumber(1, numEntries, 'int'),
-      start_date: generateRandomStartDate(i),
-      end_date: generateRandomEndDate(i),
-      adults: generateRandomNumber(1, 3, 'int'),
-      children: generateRandomNumber(1, 3, 'int'),
-      infants: generateRandomNumber(1, 2, 'int'),
-    };
-    reservationData.push(entry);
-  }
-  return reservationData;
+const generateAndWriteReservationData = () => {
+  const stream = fs.createWriteStream('reservationData.txt');
+  let i = 1;
+
+  const write = () => {
+    let proceed = true;
+    while (i <= entryCount && proceed) {
+      progressLog(i, 'reservationData.txt');
+      const entry = {
+        id: i,
+        room_id: generateRandomNumber(1, entryCount, 'int'),
+        start_date: generateRandomStartDate(i),
+        end_date: generateRandomEndDate(i),
+        adults: generateRandomNumber(1, 3, 'int'),
+        children: generateRandomNumber(1, 3, 'int'),
+        infants: generateRandomNumber(1, 2, 'int'),
+      };
+      const entryAndNewLine = `${JSON.stringify(entry)}\n`;
+      proceed = stream.write(entryAndNewLine);
+      i += 1;
+    }
+
+    if (!proceed) {
+      stream.once('drain', () => {
+        write();
+      });
+    }
+  };
+
+  write();
 };
 
-generateAndWriteRoomData();
-// generateReservationData(entryCount);
+// generateAndWriteRoomData();
+// generateAndWriteReservationData();
