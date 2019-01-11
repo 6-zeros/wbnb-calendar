@@ -8,7 +8,8 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "seed": "node ./db/seedDB.js",
+    "mongo-seed-rooms": "for i in db/roomData/*.csv; do { mongoimport --db sdc --collection rooms --type csv --file $i --headerline & }; done & exit",
+    "mongo-seed-reservations": "for i in db/reservationData/*.csv; do { mongoimport --db sdc --collection reservations --type csv --file $i --headerline & }; done & exit",
     "react-dev": "webpack -w -d",
     "start": "node ./server/server.js",
     "test": "jest"
