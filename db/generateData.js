@@ -1,42 +1,7 @@
 const fs = require('fs');
 
 const entryCount = 30000000;
-
-const progressLog = (index, fileName) => {
-  if (index === 1) {
-    console.log(`WRITING TO ${fileName}`);
-  }
-  if (index === Math.floor(1 * entryCount / 10)) {
-    console.log('-- 10% complete');
-  }
-  if (index === Math.floor(2 * entryCount / 10)) {
-    console.log('---- 20% complete');
-  }
-  if (index === Math.floor(3 * entryCount / 10)) {
-    console.log('------ 30% complete');
-  }
-  if (index === Math.floor(4 * entryCount / 10)) {
-    console.log('-------- 40% complete');
-  }
-  if (index === Math.floor(5 * entryCount / 10)) {
-    console.log('---------- 50% complete');
-  }
-  if (index === Math.floor(6 * entryCount / 10)) {
-    console.log('------------ 60% complete');
-  }
-  if (index === Math.floor(7 * entryCount / 10)) {
-    console.log('-------------- 70% complete');
-  }
-  if (index === Math.floor(8 * entryCount / 10)) {
-    console.log('---------------- 80% complete');
-  }
-  if (index === Math.floor(9 * entryCount / 10)) {
-    console.log('------------------ 90% complete');
-  }
-  if (index === entryCount) {
-    console.log(`-------------------- SUCCESSFULLY WRITTEN TO ${fileName}`);
-  }
-};
+const startNewFileCount = 1000000;
 
 const generateRandomNumber = (min, max, type) => {
   if (type !== 'int' && type !== 'double') {
@@ -62,16 +27,23 @@ const generateRandomEndDate = (index) => {
 };
 
 const generateAndWriteRoomData = () => {
-  const stream = fs.createWriteStream('roomData.csv');
   const headers = 'id,name,price,stars,service_fee,cleaning_fee\n';
-  stream.write(headers);
 
   let i = 1;
+  let fileNum = 1;
+  let zeroPaddedFileNum, fileName, stream;
 
   const write = () => {
     let proceed = true;
     while (i <= entryCount && proceed) {
-      progressLog(i, 'roomData.csv');
+      if (i % startNewFileCount === 1) {
+        zeroPaddedFileNum = fileNum < 10 ? '0' + String(fileNum) : String(fileNum);
+        fileName = `roomData/roomData_${zeroPaddedFileNum}.csv`;
+        stream = fs.createWriteStream(fileName);
+        stream.write(headers);
+        fileNum += 1;
+        console.log(`-- writing to ${fileName} --`);
+      }
 
       let entry = '';
       entry += `${i},`;
@@ -96,16 +68,23 @@ const generateAndWriteRoomData = () => {
 };
 
 const generateAndWriteReservationData = () => {
-  const stream = fs.createWriteStream('reservationData.csv');
   const headers = 'id,room_id,start_date,end_date,adults,children,infants\n';
-  stream.write(headers);
 
   let i = 1;
+  let fileNum = 1;
+  let zeroPaddedFileNum, fileName, stream;
 
   const write = () => {
     let proceed = true;
     while (i <= entryCount && proceed) {
-      progressLog(i, 'reservationData.csv');
+      if (i % startNewFileCount === 1) {
+        zeroPaddedFileNum = fileNum < 10 ? '0' + String(fileNum) : String(fileNum);
+        fileName = `reservationData/reservationData_${zeroPaddedFileNum}.csv`;
+        stream = fs.createWriteStream(fileName);
+        stream.write(headers);
+        fileNum += 1;
+        console.log(`-- writing to ${fileName} --`);
+      }
 
       let entry = '';
       entry += `${i},`;
@@ -131,4 +110,4 @@ const generateAndWriteReservationData = () => {
 };
 
 // generateAndWriteRoomData();
-generateAndWriteReservationData();
+// generateAndWriteReservationData();

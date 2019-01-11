@@ -25,6 +25,6 @@ build/
 bundle.js
 
 # Files storing generated data
-db/roomData.csv
-db/reservationData.csv
+db/reservationData/
+db/roomData/
 
