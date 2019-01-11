@@ -31,13 +31,15 @@ const generateAndWriteRoomData = () => {
 
   let i = 1;
   let fileNum = 1;
-  let zeroPaddedFileNum, fileName, stream;
+  let zeroPaddedFileNum;
+  let fileName;
+  let stream;
 
   const write = () => {
     let proceed = true;
     while (i <= entryCount && proceed) {
       if (i % startNewFileCount === 1) {
-        zeroPaddedFileNum = fileNum < 10 ? '0' + String(fileNum) : String(fileNum);
+        zeroPaddedFileNum = fileNum < 10 ? `0${String(fileNum)}` : String(fileNum);
         fileName = `roomData/roomData_${zeroPaddedFileNum}.csv`;
         stream = fs.createWriteStream(fileName);
         stream.write(headers);
@@ -72,13 +74,15 @@ const generateAndWriteReservationData = () => {
 
   let i = 1;
   let fileNum = 1;
-  let zeroPaddedFileNum, fileName, stream;
+  let zeroPaddedFileNum;
+  let fileName;
+  let stream;
 
   const write = () => {
     let proceed = true;
     while (i <= entryCount && proceed) {
       if (i % startNewFileCount === 1) {
-        zeroPaddedFileNum = fileNum < 10 ? '0' + String(fileNum) : String(fileNum);
+        zeroPaddedFileNum = fileNum < 10 ? `0${String(fileNum)}` : String(fileNum);
         fileName = `reservationData/reservationData_${zeroPaddedFileNum}.csv`;
         stream = fs.createWriteStream(fileName);
         stream.write(headers);
