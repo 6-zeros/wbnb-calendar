@@ -5,6 +5,8 @@
 //   console.log('-- connected to db sdc');
 // });
 
+// IMPORT SINGLE CSV FILE
 // mongoimport -d sdc -c rooms --type csv --file dummyData.csv --headerline
 
-// "for i in db/roomData/*.csv; do { mongoimport --db sdc --collection rooms --type csv --file $i --headerline & }; done"
+// IMPORT ALL CSV FILES IN FOLDER
+// for i in db/roomData/*.csv; do { mongoimport --db sdc --collection rooms --type csv --file $i --headerline & }; done
