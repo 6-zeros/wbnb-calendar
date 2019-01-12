@@ -9,7 +9,7 @@ const client = new Client({
 const createReservationsTable = `
   CREATE TABLE reservations (
     id INT PRIMARY KEY NOT NULL,
-    room_id INT REFERENCES rooms(id) NOT NULL,
+    room_id INT NOT NULL,
     start_date VARCHAR(70) NOT NULL,
     end_date VARCHAR(70) NOT NULL,
     adults INT NOT NULL,
