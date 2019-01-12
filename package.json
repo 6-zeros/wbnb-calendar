@@ -10,6 +10,8 @@
   "scripts": {
     "mongo-seed-rooms": "for i in db/roomData/*.csv; do { mongoimport --db sdc --collection rooms --type csv --file $i --headerline & }; done & exit",
     "mongo-seed-reservations": "for i in db/reservationData/*.csv; do { mongoimport --db sdc --collection reservations --type csv --file $i --headerline & }; done & exit",
+    "psql-seed-rooms": "node db/PostgreSQL/roomsImport.js",
+    "psql-seed-reservations": "node db/PostgreSQL/reservationsImport.js",
     "react-dev": "webpack -w -d",
     "start": "node ./server/server.js",
     "test": "jest"
@@ -21,7 +23,7 @@
     "mongoose": "^5.4.0",
     "morgan": "^1.9.1",
     "prop-types": "^15.6.2",
-    "react": "^16.7.0", 
+    "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
@@ -46,6 +48,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "jest": "^23.6.0",
+    "pg": "^7.8.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.28.1",
     "webpack-cli": "^3.1.2"

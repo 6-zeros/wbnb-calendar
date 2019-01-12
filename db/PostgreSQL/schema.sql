@@ -1,8 +1,4 @@
-DROP DATABASE IF EXISTS sdc;
-CREATE DATABASE sdc;
-USE sdc;
-
-CREATE TABLE IF NOT EXISTS rooms (
+CREATE TABLE rooms (
   id INT NOT NULL PRIMARY KEY,
   name VARCHAR(40) NOT NULL,
   price INT NOT NULL,
@@ -11,9 +7,9 @@ CREATE TABLE IF NOT EXISTS rooms (
   cleaning_fee INT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS reservations (
+CREATE TABLE reservations (
   id INT PRIMARY KEY NOT NULL,
-  room_id INT NOT NULL,
+  room_id INT REFERENCES rooms(id) NOT NULL,
   start_date VARCHAR(70) NOT NULL,
   end_date VARCHAR(70) NOT NULL,
   adults INT NOT NULL,
