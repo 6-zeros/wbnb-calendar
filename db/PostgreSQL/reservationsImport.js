@@ -6,6 +6,8 @@ const client = new Client({
   database: 'sdc'
 });
 
+// room_id INT REFERENCES rooms(id) NOT NULL,
+
 const createReservationsTable = `
   CREATE TABLE reservations (
     id INT PRIMARY KEY NOT NULL,
