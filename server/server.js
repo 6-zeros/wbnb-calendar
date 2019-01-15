@@ -13,7 +13,7 @@ const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const path = require('path');
 const {
-  addReservation, readReservation,
+  addReservation, getReservationInfo,
   updateReservation, deleteReservation,
 } = require('../db/index.js');
 
@@ -39,7 +39,8 @@ app.post('/api/rooms/:id', (req, res) => {
 // READ
 app.get('/api/rooms/:id', (req, res) => {
   const { id } = req.params;
-  readReservation(id, (result) => {
+  getReservationInfo(id, (result) => {
+    console.log(result);
     res.send(result);
   });
 });

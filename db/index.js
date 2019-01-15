@@ -1,19 +1,30 @@
 // DATABASE CONNECTION
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  host: 'localhost',
+  user: 'georgeqian',
+  database: 'sdc'
+});
+
+pool.connect((err) => {
+  if (err) { throw err; }
+});
 
 const addReservation = (id, resInfo, cb) => {
   // insert into db
   // cb()
 };
 
-const readReservation = (id, cb) => {
-  // find record based on id
-  // cb(resulting record)
+const getReservationInfo = (id, cb) => {
+  const queryString = `SELECT * FROM rooms JOIN reservations ON 
+                       rooms.id = reservations.room_id AND
+                       rooms.id = ${id}`;
 
-  // MONGO VERSION
-  // Reservations.findOne({ _id: id })
-  //   .then((result) => {
-  //     cb(result);
-  //   });
+  pool.query(queryString, (err, result) => {
+    if (err) { throw err; }
+    cb(result.rows);
+  });
 };
 
 const updateReservation = (id, newResInfo, cb) => {
@@ -26,7 +37,7 @@ const deleteReservation = (id, resInfo, cb) => {
   // cb()
 };
 
-module.exports.addReservation = addReservation;
-module.exports.readReservation = readReservation;
-module.exports.updateReservation = updateReservation;
-module.exports.deleteReservation = deleteReservation;
+module.exports = {
+  addReservation, getReservationInfo,
+  updateReservation, deleteReservation
+};
