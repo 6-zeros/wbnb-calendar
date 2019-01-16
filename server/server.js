@@ -1,13 +1,3 @@
-// const domain = process.env.DOMAIN || '172.17.0.2';
-// const domain = 'localhost';
-// const mongoose = require('mongoose');
-// const Reservations = require('../db/models/reservations.js');
-
-// mongoose.connect(`mongodb://${domain}/errbnb`, { useNewUrlParser: true })
-//   .then(() => {
-//     console.log('Connected to Database on: ', domain);
-//   });
-
 const express = require('express');
 const morgan = require('morgan');
 const bodyparser = require('body-parser');
@@ -33,7 +23,7 @@ app.post('/api/rooms/:id', (req, res) => {
   const { start_date, end_date, adults, children, infants } = req.body;
   const reservationInfo = { start_date, end_date, adults, children, infants };
   addReservation(id, reservationInfo, () => {
-    res.send(`success creating reservation for room id ${id}`);
+    res.send(`-- success creating reservation for room id ${id}`);
   });
 });
 
@@ -47,10 +37,11 @@ app.get('/api/rooms/:id', (req, res) => {
 
 // UPDATE
 app.put('/api/reservations/:id', (req, res) => {
-  const { newReservationInfo } = req.body;
   const { id } = req.params;
+  const { start_date, end_date, adults, children, infants } = req.body;
+  const newReservationInfo = { start_date, end_date, adults, children, infants };
   updateReservation(id, newReservationInfo, () => {
-    res.send(`success updating reservation for room id ${id}`);
+    res.send(`-- success updating reservation id ${id}`);
   });
 });
 
@@ -58,7 +49,7 @@ app.put('/api/reservations/:id', (req, res) => {
 app.delete('/api/reservations/:id', (req, res) => {
   const { id } = req.params;
   deleteReservation(id, () => {
-    res.send(`success deleting reservation associated with room id ${id}`);
+    res.send(`-- success deleting reservation id ${id}`);
   });
 });
 
@@ -69,26 +60,3 @@ app.get('/*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
-
-// app.patch('/api/rooms/:id', (req, res) => {
-//   const { id } = req.params;
-//   const payload = req.body;
-//   Reservations.findByIdAndUpdate({ _id: Number(id) })
-//     .then((results) => {
-//       const transformedDates = [];
-//       results.bookedDates.forEach((date) => {
-//         transformedDates.push(date.startDate.valueOf());
-//         transformedDates.push(date.endDate.valueOf());
-//       });
-//       const includesStartDate = transformedDates.includes(new Date(payload.startDate).valueOf());
-//       const includesEndDate = transformedDates.includes(new Date(payload.endDate).valueOf());
-//       if (includesStartDate && includesEndDate) {
-//         res.end('Duplicate Entry');
-//       } else {
-//         results.bookedDates.push(payload);
-//         results.save(() => {
-//           res.end('Saved to DB');
-//         });
-//       }
-//     });
-// });
