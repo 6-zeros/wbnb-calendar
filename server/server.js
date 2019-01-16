@@ -29,10 +29,11 @@ app.use(express.static('client/dist'));
 
 // CREATE
 app.post('/api/rooms/:id', (req, res) => {
-  const { reservationInfo } = req.body;
   const { id } = req.params;
+  const { start_date, end_date, adults, children, infants } = req.body;
+  const reservationInfo = { start_date, end_date, adults, children, infants };
   addReservation(id, reservationInfo, () => {
-    res.send(`success updating reservation for room id ${id}`);
+    res.send(`success creating reservation for room id ${id}`);
   });
 });
 
@@ -40,13 +41,12 @@ app.post('/api/rooms/:id', (req, res) => {
 app.get('/api/rooms/:id', (req, res) => {
   const { id } = req.params;
   getReservationInfo(id, (result) => {
-    console.log(result);
     res.send(result);
   });
 });
 
 // UPDATE
-app.put('/api/rooms/:id', (req, res) => {
+app.put('/api/reservations/:id', (req, res) => {
   const { newReservationInfo } = req.body;
   const { id } = req.params;
   updateReservation(id, newReservationInfo, () => {
@@ -55,10 +55,9 @@ app.put('/api/rooms/:id', (req, res) => {
 });
 
 // DELETE
-app.delete('/api/rooms/:id', (req, res) => {
+app.delete('/api/reservations/:id', (req, res) => {
   const { id } = req.params;
-  const { reservationInfo } = req.body;
-  deleteReservation(id, reservationInfo, () => {
+  deleteReservation(id, () => {
     res.send(`success deleting reservation associated with room id ${id}`);
   });
 });

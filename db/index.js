@@ -11,9 +11,15 @@ pool.connect((err) => {
   if (err) { throw err; }
 });
 
-const addReservation = (id, resInfo, cb) => {
-  // insert into db
-  // cb()
+const addReservation = (room_id, resInfo, cb) => {
+  const { start_date, end_date, adults, children, infants } = resInfo;
+  const queryString = `INSERT INTO reservations (room_id, start_date, end_date, adults, children, infants)
+                       VALUES (${room_id}, ${start_date}, ${end_date}, ${adults}, ${children}, ${infants})`;
+
+  pool.query(queryString, (err) => {
+    if (err) { throw err; }
+    cb();
+  });
 };
 
 const getReservationInfo = (id, cb) => {
@@ -32,9 +38,13 @@ const updateReservation = (id, newResInfo, cb) => {
   // cb()
 };
 
-const deleteReservation = (id, resInfo, cb) => {
-  // delete record based on id
-  // cb()
+const deleteReservation = (id, cb) => {
+  const queryString = `DELETE FROM reservations WHERE id = ${id}`;
+
+  pool.query(queryString, (err) => {
+    if (err) { throw err; }
+    cb();
+  });
 };
 
 module.exports = {
