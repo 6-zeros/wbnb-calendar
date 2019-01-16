@@ -1,9 +1,11 @@
 config:
-  target: 'https://artillery.io'
+  target: 'http://localhost:8080'
   phases:
-    - duration: 60
-      arrivalRate: 20
+    - duration: 180
+      arrivalRate: 1000
+  http: 
+    pool: 200
 scenarios:
   - flow:
     - get:
-        url: "/docs"
+        url: "/api/rooms/9999999"
