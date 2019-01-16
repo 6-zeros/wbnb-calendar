@@ -14,7 +14,8 @@
     "psql-seed-reservations": "node db/PostgreSQL/reservationsImport.js",
     "react-dev": "webpack -w -d",
     "start": "node ./server/server.js",
-    "test": "jest"
+    "test": "jest",
+    "stress-test-artillery": "artillery run artillery.yml"
   },
   "dependencies": {
     "axios": "^0.18.0",
