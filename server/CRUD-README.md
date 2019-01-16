@@ -1,26 +1,23 @@
 # CRUD API
 
-> Implementation and functionality will be finalized after final database is chosen
-  
 ## CREATE
 - Route: app.post('/api/rooms/:id')
 - Reservation info will come through the body of the request
 - Room id will be contained in the url
-- Calls the addReservation function which will handle database insertion
+- Calls the addReservation function which will insert the reservation info (associated with the provided room_id) into the reservations table
 
 ## READ
 - Route: app.get('/api/rooms/:id')
 - Room id will be contained in the url
-- Calls the readReservation function which will query the database on roomId
+- Calls the getReservationInfo function which will query the database for room and reservation information relevant to the provided room_id
 
 ## UPDATE
-- Route: app.put('/api/rooms/:id')
+- Route: app.put('/api/reservations/:id')
 - New reservation info will come through the body of the request
-- Room id will be contained in the url
-- Calls the updateReservation function which will query the database for the roomId and update it
+- Reservation id will be contained in the url
+- Calls the updateReservation function which will update the reservation information relevant to the provided reservation_id
 
 ## DELETE
-- Route: app.delete('/api/rooms/:id')
-- Reservation info will come through the body of the request
-- Room id will be contained in the url
-- Calls the deleteReservation function which will query the database on roomId and delete the necessary records
+- Route: app.delete('/api/reservations/:id')
+- Reservation id will be contained in the url
+- Calls the deleteReservation function which will delete the record with the provided reservation_id
