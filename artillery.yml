@@ -1,0 +1,11 @@
+config:
+  target: 'http://localhost:8080'
+  phases:
+    - duration: 180
+      arrivalRate: 1000
+  http: 
+    pool: 200
+scenarios:
+  - flow:
+    - get:
+        url: "/api/rooms/9999999"
