@@ -15,7 +15,8 @@
     "react-dev": "webpack -w -d",
     "start": "node ./server/server.js",
     "test": "jest",
-    "stress-test-artillery": "artillery run artillery.yml"
+    "stress-test-artillery": "artillery run artillery.yml",
+    "stress-test-k6": "k6 run k6.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
