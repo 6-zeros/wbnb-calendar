@@ -28,6 +28,6 @@ bundle.js
 db/reservationData/
 db/roomData/
 
-# New Relic 
+# New Relic config file 
 newrelic.js
 
