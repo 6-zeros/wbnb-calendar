@@ -30,16 +30,22 @@ const getData = roomID => (
         dispatch(setCleaningFee(cleaningFee));
         dispatch(setBookedDates(bookedDates));
         dispatch(setServiceFee(serviceFee));
-        // dispatch(setPrice(data.price));
       });
   }
 );
 
 const reserveDate = (roomID, payload) => (
   (dispatch) => {
-    axios.patch(`/api/rooms/${roomID}`, payload)
+    const processedPayload = {
+      start_date: `'${payload.startDate}'`,
+      end_date: `'${payload.endDate}'`,
+      adults: payload.guests.adults,
+      children: payload.guests.children,
+      infants: payload.guests.infants
+    }
+
+    axios.post(`/api/rooms/${roomID}`, processedPayload)
       .then(() => {
-        /* eslint-disable-next-line */
         window.alert('Booked');
         dispatch(getData(roomID));
       });
