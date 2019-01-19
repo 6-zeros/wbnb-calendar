@@ -31,3 +31,6 @@ db/roomData/
 # New Relic config file 
 newrelic.js
 
+# PSQL EC2 Instance Config 
+db/psqlConfig.js
+

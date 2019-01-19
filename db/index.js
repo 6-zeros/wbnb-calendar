@@ -1,10 +1,13 @@
 const { Pool } = require('pg');
+const config = require('./psqlConfig.js');
 
-const pool = new Pool({
-  host: 'localhost',
-  user: 'georgeqian',
-  database: 'sdc'
-});
+// const pool = new Pool({
+//   host: 'localhost',
+//   user: 'georgeqian',
+//   database: 'sdc'
+// });
+
+const pool = new Pool(config);
 
 pool.connect((err) => {
   if (err) { throw err; }
@@ -28,7 +31,17 @@ const getReservationInfo = (id, cb) => {
 
   pool.query(queryString, (err, result) => {
     if (err) { throw err; }
-    cb(result.rows);
+    if (result.rows.length !== 0) {
+      cb(result.rows);
+    } else {
+      // no reservations for provided room id
+      // fetch room information only
+      const roomInfoQueryString = `SELECT * FROM rooms WHERE id = ${id};`;
+      pool.query(roomInfoQueryString, (err1, result1) => {
+        if (err1) { throw err1; }
+        cb(result1.rows);
+      })
+    }
   });
 };
 
