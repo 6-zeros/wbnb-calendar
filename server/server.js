@@ -31,8 +31,12 @@ app.post('/api/rooms/:id', (req, res) => {
 // READ
 app.get('/api/rooms/:id', (req, res) => {
   const { id } = req.params;
-  getReservationInfo(id, (result) => {
-    res.send(result);
+  getReservationInfo(id, (err, result) => {
+    if (err) {
+      res.status(500).send('error');
+    } else {
+      res.send(result);
+    }
   });
 });
 

@@ -30,16 +30,20 @@ const getReservationInfo = (id, cb) => {
                        rooms.id = ${id};`;
 
   pool.query(queryString, (err, result) => {
-    if (err) { throw err; }
-    if (result.rows.length !== 0) {
-      cb(result.rows);
+    if (err) { 
+      cb(err); 
+    } else if (result.rows.length !== 0) {
+      cb(null, result.rows);
     } else {
       // no reservations for provided room id
       // fetch room information only
       const roomInfoQueryString = `SELECT * FROM rooms WHERE id = ${id};`;
       pool.query(roomInfoQueryString, (err1, result1) => {
-        if (err1) { throw err1; }
-        cb(result1.rows);
+        if (err1) { 
+          cb(err1);
+        } else {
+          cb(null, result1.rows);
+        }
       })
     }
   });
