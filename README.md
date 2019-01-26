@@ -26,7 +26,7 @@
 - npm run react-dev
 - npm start
 
-> Then navigate to http://localhost:8080/rooms/1 or any room from 1 through 10,000,000
+> Then navigate to http://localhost:8080/rooms/1 (or any room from 1 through 10,000,000)
 
 ## Requirements
 
