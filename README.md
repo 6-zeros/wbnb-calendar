@@ -1,6 +1,6 @@
 # Wherebnb
 
-> Optimized back-end of the booking / calendar service for an Airbnb listing page
+> Optimized back-end of the booking / calendar service for an Airbnb listing page\
 > (This is the final state of the repo before deployment to AWS)
 
 ## Related Projects
