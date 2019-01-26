@@ -8,6 +8,7 @@
     "node": ">=6.13.0"
   },
   "scripts": {
+    "generate-data": "node db/generateData.js",
     "mongo-seed-rooms": "for i in db/roomData/*.csv; do { mongoimport --db sdc --collection rooms --type csv --file $i --headerline & }; done & exit",
     "mongo-seed-reservations": "for i in db/reservationData/*.csv; do { mongoimport --db sdc --collection reservations --type csv --file $i --headerline & }; done & exit",
     "psql-seed-rooms": "node db/PostgreSQL/roomsImport.js",

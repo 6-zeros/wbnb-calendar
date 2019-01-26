@@ -1,13 +1,13 @@
-# Project Name
+# Wherebnb
 
-> Project description
+> Optimized back-end of the booking / calendar service for an Airbnb listing page
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/6-zeros/wbnb-reviews
+  - https://github.com/6-zeros/wbnb-suggestions
+  - https://github.com/6-zeros/wbnb-gallery
+  - https://github.com/6-zeros/wbnb-calendar (this repo)
 
 ## Table of Contents
 
@@ -17,7 +17,16 @@
 
 ## Usage
 
-> Some usage instructions
+> To start the app, run the following from the root directory:
+
+- npm install
+- npm run generate-data (this will take roughly 10 min)
+- npm run psql-seed-rooms (this will take roughly 20 min)
+- npm run psql-seed-reservations (this will roughly 30 min)
+- npm run react-dev
+- npm start
+
+> Then navigate to http://localhost:8080/rooms/1 or any room from 1 through 10,000,000
 
 ## Requirements
 

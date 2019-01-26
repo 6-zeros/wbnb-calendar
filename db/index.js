@@ -1,13 +1,13 @@
 const { Pool } = require('pg');
 const config = require('./psqlConfig.js');
 
-// const pool = new Pool({
-//   host: 'localhost',
-//   user: 'georgeqian',
-//   database: 'sdc'
-// });
+const pool = new Pool({
+  host: 'localhost',
+  user: 'georgeqian',
+  database: 'sdc'
+});
 
-const pool = new Pool(config);
+// const pool = new Pool(config);
 
 pool.connect((err) => {
   if (err) { throw err; }
